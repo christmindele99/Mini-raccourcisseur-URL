@@ -30,9 +30,7 @@
       }
     </style>
 
-    <script src="https://cdn.tailwindcss.com">
-      
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
       tailwind.config = {
@@ -70,17 +68,89 @@
     @stack('dumper')
   </head>
   <body class="min-h-screen w-screen font-sans">
-    <header>
-    </header>
+    <header></header>
     <main>
-      <div class="container mx-auto">
+      <div class="container mx-auto px-4 py-16 max-w-lg text-center">
+        <h1 class="text-2xl font-semibold text-sand-12 mb-6">
+          Ton URL raccourcie
+        </h1>
 
-        <p class="text-lg text-sand-11">
-          Ici sera l'affichage des résultats
+        <p class="text-sm text-sand-11 mb-1">URL originale :</p>
+        <p class="text-sm text-sand-10 break-all mb-6">
+          {{ originalUrl }}
         </p>
+
+        <div class="flex items-center gap-2 bg-sand-3 rounded-lg px-4 py-3 mb-6">
+          
+          <a href="{{ shortUrl }}"
+            target="_blank"
+            class="flex-1 text-primary font-medium break-all text-center" targer="_blank"
+          >
+            {{ code }}
+          </a>
+
+          <button
+            type="button"
+            onclick="copyShortUrl(this)"
+            data-url="{{ shortUrl }}"
+            class="shrink-0 p-2 rounded hover:bg-sand-4 transition-colors"
+            title="Copier le lien"
+          >
+            <svg
+              class="icon-copy text-sand-11"
+              xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+
+            <svg
+              class="icon-check text-green-600 hidden"
+              xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <img
+          src="/qrcode/{{ code }}"
+          alt="QR Code"
+          width="220"
+          height="220"
+          class="mx-auto border border-sand-5 rounded-lg"
+        />
+
+        <a href="/"
+          class="inline-block mt-8 text-sm text-primary hover:underline"
+        >
+          ← Raccourcir une autre URL
+        </a>
       </div>
     </main>
-    <footer>
-    </footer>
+    <footer></footer>
   </body>
+
+  <script>
+    function copyShortUrl(button) {
+      const url = button.getAttribute('data-url')
+      const copyIcon = button.querySelector('.icon-copy')
+      const checkIcon = button.querySelector('.icon-check')
+
+      navigator.clipboard.writeText(url).then(() => {
+        copyIcon.classList.add('hidden')
+        checkIcon.classList.remove('hidden')
+
+        button.setAttribute('title', 'Copié !')
+
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden')
+          checkIcon.classList.add('hidden')
+          button.setAttribute('title', 'Copier le lien')
+        }, 1500)
+      })
+    }
+  </script>
 </html>

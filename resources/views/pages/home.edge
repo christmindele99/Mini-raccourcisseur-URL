@@ -30,9 +30,7 @@
       }
     </style>
 
-    <script src="https://cdn.tailwindcss.com">
-      
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
       tailwind.config = {
@@ -65,7 +63,6 @@
         }
       };
     </script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('dumper')
   </head>
@@ -77,26 +74,28 @@
         <h1 class="text-4xl font-bold text-primary">
           Bienvenu dans le racoursseur d'url
         </h1>
-        <p class="text-lg text-sand-11">
-          Ici sera le formulaire de saisie de l'url
+        <p class="text-lg text-sand-11 mb-6">
+          Colle ton URL ci-dessous pour la raccourcir
         </p>
-        <input ty>
       </div>
-      <div class="flex justify-center">
+      <form method="POST" action="/shorten" class="flex justify-center">
+        {{ csrfField() }}
         <div class="flex w-full max-w-md">
           <input
-          type="text"
-          placeholder="Entrez votre texte"
-          class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="url"
+            name="original_url"
+            placeholder="https://exemple.com/mon-lien-tres-long"
+            required
+            class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            type="button"
+            type="submit"
             class="bg-blue-600 text-white px-5 py-2 rounded-r-lg"
-            >
-            Valider
+          >
+            Raccourcir
           </button>
         </div>
-      </div>
+      </form>
     </main>
     <footer>
     </footer>
